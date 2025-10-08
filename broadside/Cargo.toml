@@ -5,4 +5,5 @@ edition = "2024"
 
 [dependencies]
 broadside_net = { path = "../broadside_net" }
+freya = "0.3.4"
 tokio = { version = "1.47.1", features = ["macros", "rt", "rt-multi-thread"] }

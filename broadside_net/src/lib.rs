@@ -71,3 +71,18 @@ pub enum HostError {
     #[error("ConnectionError: {0:?}")]
     EndpointConnection(iroh::endpoint::ConnectionError),
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Node;
+
+    #[tokio::test]
+    async fn send_recv() {
+        const PAYLOAD: [u8; 8] = [1,2,3,4,5,6,7,8];
+        let (mut server, server_addr) = Node::host().await.unwrap();
+        let mut client = Node::connect(server_addr).await.unwrap();
+        server.write(&PAYLOAD).await.unwrap();
+        let recv = client.read().await.unwrap();
+        assert_eq!(PAYLOAD, recv.as_slice());
+    }
+}
